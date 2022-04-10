@@ -1,26 +1,36 @@
 ## Forecasting  
-naive method: 가장 최근의 관측치를 기반으로 예측하는 것.
+**naive method**: 가장 최근의 관측치를 기반으로 예측하는 것.
 오래된 데이터는 오히려 예측에 방해될 수 있다.
 
 ### Time Series  
 벡터(Vector)나 행렬(Matrix)로 표시되면서 관측된 시간에 대한 정보가 있는 자료들을 시계열 자료(Time Series Data)라고 한다.  
-예측변수(Predictor Variables)는 시계열 예측에 꽤나 도움이 된다.  
-1) Explanatory Model:  
-$$Electricity Demand = f(current\,temperature, strength\,of\,economy, population, time\,of\,day, day\,of\,week, error)$$  
-    -   이 경우는 Explanatory variables와 error이 ED를 얼마나 설명하느냐, 그리고  
 
-2) Time Series Model:  
+예측변수(Predictor Variables)는 시계열 예측에 꽤나 도움이 된다.  
+
+#### 1) Explanatory Model:  
+
+$$Electricity Demand = f(current\,temperature, strength\,of\,economy, population, time\,of\,day, day\,of\,week, error)$$  
+
+이 경우는 Explanatory variables와 error이 ED를 얼마나 설명하느냐, 그리고  
+
+#### 2) Time Series Model:  
+
 $$ED = f(ED_t, ED_{t-1}, ED_{T-2}, ... , error)$$  
 
-3) Mixed Model:  
+#### 3) Mixed Model:  
+
 $$ED_{t+1} = f(ED_t, current\,temperature, strength\,of\,economy, population, time\,of\,day, day\,of\,week, error)$$ 
 
 #### Terms:  
-- _Things to be forecast_ : a r.v $$y_t$$  
-- _Forecast distribution_ : Set I를 전체 관측치들라고 한다면, $$y_t|I$$는 우리가 I에서 아는 것들을 전제로 한 확률변수 y라는 뜻이 된다.  
-- _point forecast_ : mean of $$y_t|I$$  
-- _forecast variance_ : $$var[y_t|I]$$  
+- Things to be forecast : a r.v $$y_t$$  
+- Forecast distribution : Set $$\mathsf{I}$$ 를 전체 관측치들라고 한다면, $$y_{t\mid\mathsf{I}}$$는 우리가 아는 것들을 전제로 한 확률변 수 y라는 뜻이 된다. 
+- Point forecast : mean of $$y_{t\mid\mathsf{I}}$$  
+- Forecast variance : $$var[y_t\mid I]$$  
+
+시계열에서 이제부터 항상 나오는 표현이다.  
+
 $$y_{t|t-1} = y_t|{y_1, y_2, ... , y_{t-1}}$$
+
 $$\widehat{y_{T+h}} = E[y_{T+h}|y_1, ..., y_t]$$
 : (an h-step forecast taking account of all observations up to time T).  
 
