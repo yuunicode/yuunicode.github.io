@@ -1,0 +1,21 @@
+## ts object  
+A time series is stored in a ts object in R:  
+- a list of numbers  
+- information about times thoses numbers were recorded.  
+
+ts() 문법:  
+> ts(data, start, frequency, ...)  
+
+요소:  
+- data:  
+
+
+#### Annual data with 1 Obs **per year**,  
+> y <- ts(c(123, 79, 38, 52, 100), start=2012)  
+이 경우는 일년에 한번이기 때문에 c(start_year)만 넣어주면 된다. 하지만 일년에 한번의 관측치가 아니면,  
+
+#### Annual data with more than 1 Obs **per year**,  
+> y <- ts(z, start=2003, frequency=12) 
+
+
+
