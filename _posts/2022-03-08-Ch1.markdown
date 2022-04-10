@@ -27,10 +27,11 @@ $$ED_{t+1} = f(ED_t, current\,temperature, strength\,of\,economy, population, ti
 - Point forecast : mean of $$y_{t\mid\mathsf{I}}$$  
 - Forecast variance : $$var[y_t\mid I]$$  
 
-시계열에서 이제부터 항상 나오는 표현이다.  
+시계열에서 이제부터 항상 나오는 표현: 
 
 $$y_{t|t-1} = y_t|{y_1, y_2, ... , y_{t-1}}$$
 
+다음으로, H번의 예측은 
 $$\widehat{y_{T+h}} = E[y_{T+h}|y_1, ..., y_t]$$
 : (an h-step forecast taking account of all observations up to time T).  
 
