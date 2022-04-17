@@ -7,15 +7,53 @@ ts() 문법:
 > ts(data, start, frequency, ...)  
 
 요소:  
-- data:  
+- data: 이 numerical 벡터에 데이터를 넣는다.  
+- start: 시작하는 년도(starting year). 월초부터 시작하는 것이 아니면 start = c(2003, 2) 이런 식으로 컬럼을 넣어준다.  
+- frequency: 년도 별로 한 번의 데이터가 아니면 넣어줌.  
 
+이제 예시를 보자.  
 
 #### Annual data with 1 Obs **per year**,  
 > y <- ts(c(123, 79, 38, 52, 100), start=2012)  
 이 경우는 일년에 한번이기 때문에 c(start_year)만 넣어주면 된다. 하지만 일년에 한번의 관측치가 아니면,  
 
 #### Annual data with more than 1 Obs **per year**,  
-> y <- ts(z, start=2003, frequency=12) 
+> y <- ts(z, start=2003, frequency=12)  
+주기를 넣어주면 된다. **오브젝트에 계속 넣어줘야하는 요소로 겁나 중요함**.  
 
 
+|Data|Frequency|start example|
+|:---|---:|:---|
+|Annual|1|1995|
+|Quarterly|4|c(1995,2) //2분기부터 시작|
+|Monthly|12|c(1995, 9) //9월부터 시작|
+|Weekly|52 (365.25/7=52.18)|c(1995, 23)|
+|daily| 7 (weekly seasonality), 365.25 (annual seasonality)|1 or c(1995,234)| 
+|minute| 60 (hourly seasonality), 1440 (daily seasonality 60 * 24), 10080 (weekly seasonality 60 * 24 * 7), 525960 (annual 60 * 24 * 365.25) | 
 
+[ Figure 1. Frequency Table]
+
+------
+이 책을 기반으로 시계열을 공부해보자. 
+가장 기본적으로 **fpp2** 패키지 로드를 하면, **forecast** 나 **ggplot2**를 자동적으로 불러온다.  
+> library(fpp2)  
+하면 준비 끝  
+
+## Autoplot() : produce a time plot of the data
+
+예시로 Melsyd를 autoplot해보자. 우선 Melsyd 데이터를 보면,  
+
+![캡처](https://user-images.githubusercontent.com/56739105/163723429-1301d4cf-19c7-45fd-9fcf-439e94fef59d.PNG)
+
+카테고리가 좌석 등급별로 나눠져있는 것을 알 수 있다. 이코노미 부분만 플랏을 해보면, 
+
+```R
+autoplot(melsyd[, "Economy.Class"]) + 
+     ggtitle("Economy class passengers: Melbourne-Sydney") + 
+     xlab("Year") + 
+     ylab("Thousands")
+
+```
+
+![캡처](https://user-images.githubusercontent.com/56739105/163723552-810514b0-f722-49e5-9c64-6e4b313afc03.PNG)  
+플랏만 보고 해석할 수 있는것은 

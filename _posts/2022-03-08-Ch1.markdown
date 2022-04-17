@@ -1,9 +1,28 @@
 ## Forecasting  
+
+> Good forecasts capture the genuine patterns and relationships which exist in the historical data, but do not replicate past events that will not occur again.  
+
+예측에 필요한 요소는 다양하지만 기본적으로 1) 팩터를 이해하고, 팩터들의 기여도가 어떤지랑 2) 데이터가 얼마나 있는지, 그리고 3)우리가 예측하려는 것이 예측에 영향을 주는지가 있다.  
+Forecasting 상황은 Time horizeons(시계 - 시간축), outcomes들을 결정하는데 쓰이는 요인, 데이터들의 패턴, 그리고 그 외 다양한 측면에서 나타난다.  
+방법으로는 가장 간단한 Naive method도 있고, 아니면 신경망과 같은 복잡한 방법들도 있음.  
+참고로 데이터가 너무 없을때는 Judgmental forecasting (챕터4에 있음)을 하기도 한다.   
 **naive method**: 가장 최근의 관측치를 기반으로 예측하는 것.
-오래된 데이터는 오히려 예측에 방해될 수 있다.
+오래된 데이터는 오히려 예측에 방해될 수 있다.  
+
+### 예측의 종류 
+**Qualitatative forecasting**: 데이터가 없는경우, 아니면 데이터가 예측에 관련없는 경우에 쓰는 방법이다. historical data를 사용하지 않으면서도 좋은 예측이 가능하게 하는 방법임.  
+
+**Quantitative forecasting**: 아래 두가지 조건이 만족되면 적용할 수 있다.  
+1) 과거의 수치들이 존재하는 경우  
+2) 과거의 패턴들 중 몇몇이 미래에도 지속될 것 같다고 유추할 수 있을 때  
 
 ### Time Series  
-벡터(Vector)나 행렬(Matrix)로 표시되면서 관측된 시간에 대한 정보가 있는 자료들을 시계열 자료(Time Series Data)라고 한다.  
+1) Daily IBM stock prices  
+2) Monthly rainfall  
+3) quarterly sales results for Amazon  
+4) Annual Google profits  
+와 같이 일정한 시간의 간격으로 이뤄진 시계열을 이제 다룰것이다.  
+> 벡터(Vector)나 행렬(Matrix)로 표시되면서 관측된 시간에 대한 정보가 있는 자료들을 시계열 자료(Time Series Data)라고 한다.  
 
 예측변수(Predictor Variables)는 시계열 예측에 꽤나 도움이 된다.  
 
@@ -31,7 +50,9 @@ $$ED_{t+1} = f(ED_t, current\,temperature, strength\,of\,economy, population, ti
 
 $$y_{t|t-1} = y_t|{y_1, y_2, ... , y_{t-1}}$$
 
-다음으로, H번의 예측은 
+다음으로, H번의 예측은 오
+
 $$\widehat{y_{T+h}} = E[y_{T+h}|y_1, ..., y_t]$$
 : (an h-step forecast taking account of all observations up to time T).  
 
+의 식으로 표현 가능하다.  
