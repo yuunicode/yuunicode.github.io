@@ -40,13 +40,19 @@ ts() 문법:
 
 ### Time series Patterns  
 크게 Trend, Seasonal, Cyclic이 있다.  
+
 **Trend**  
 - Long-term (긴 기간)
 - Do not have to be linear (선형일 필요 없음)  
 - Changing direction: 추세가 바뀔 때  
 
 **Seasonal**  
+- fixed and known frequency  
+- Monthly sales of antidiabetic drugs - 연말에 가격이 싸지는 것 
 
+**Cyclic**  
+- not a fixed frequency  
+- usually due to economic conditions, and often related to the 'business cycle'
 
 
 ------
@@ -65,7 +71,13 @@ ausgdp 데이터를 봐보자.
 
 Quantile이 4개로 나눠져있으니 frequency=4, 그리고 시작하는 년도가 1971년도의 3번째 주기니 start=c(1971,3) 으로 설정해주면 된다.  
 
->ausgdp <- ts(x, frequency=4, start=c(1971,3)) 
+```R
+ausgdpts <- ts(ausgdp, frequency=4, start=c(1971,3))  
+autoplot(ausgdpts)
+```  
+![image](https://user-images.githubusercontent.com/56739105/163750358-f41174d9-141e-4181-b88d-69560d29f38e.png)
+
+계속 increasing하는 추세가 보인다.  
 
 #### 예시2) 항공사 승객 수 
 
@@ -110,4 +122,50 @@ autoplot(a10) +
 ![image](https://user-images.githubusercontent.com/56739105/163746838-4ece3c85-2e61-4765-b33b-d70381361ae2.png)  
 
 계속 증가하는 추세, 즉 Level이 올라가고, Seasonal 패턴도 폭이 커지는 것을 볼 수 있다. 특히 연말에 구입량이 증가하는 이유는 연말에 정부에서 당뇨환자들에게 주는 지원제도가 있기 때문이다.  
+
+#### Your turn  
+1) Create plots of the following time series: dole, bricksq, lynx, goog  
+2) Use help() to find out about the data in each series.
+3) For the last plot, modify the axis labels and title.  
+
+1. dole  
+![image](https://user-images.githubusercontent.com/56739105/163751056-c594dc18-9eb8-46e6-877e-f8417c371c27.png)  
+
+```R
+dolets <- ts(dole, frequency = 12, start = c(1956))
+autoplot(dolets)
+```  
+![image](https://user-images.githubusercontent.com/56739105/163751967-53f37201-621e-4c56-9ce5-8e9dc5f654ae.png)  
+
+![image](https://user-images.githubusercontent.com/56739105/163751509-aa2239dd-4627-41b5-9e01-338f65a8cc55.png)  
+
+2. bricksq  
+```R
+help(bricksq) #get info of bricksq
+brickts <- ts(bricksq, frequency = 4, start = c(1956))
+```
+![image](https://user-images.githubusercontent.com/56739105/163751760-d661268d-6837-48ef-8a3f-3d33de27a08c.png)  
+확실히 Seasonal 패턴이 있는 것을 볼 수 있다. (삼각형) 중간중간 곤두박질치는 부분도 있다.  
+
+3. lynx  
+데이터를 찾아보면, 연간 잡힌 샴들의 개체수라서 간단하게 플롯할 수 있을 것 같다.  
+
+![image](https://user-images.githubusercontent.com/56739105/163752422-f7c05bdd-a375-4ab2-8dd6-df5f60f42472.png)
+
+간단하게 
+
+```R
+lynxts <- ts(lynx)
+```  
+만 해도  
+
+![image](https://user-images.githubusercontent.com/56739105/163755231-8ab660fd-de97-4566-874d-5ff6910012e9.png)
+
+Seasonal 패턴이 잘보인다. 교수님 피셜로는 얘네가 알아서 개체수를 조절한다고 한다.  
+
+4. goog  
+
+![image](https://user-images.githubusercontent.com/56739105/163756278-82823652-cbda-4a63-9497-a03dcd348f41.png)  
+
+![image](https://user-images.githubusercontent.com/56739105/163756326-2ddbca4c-57a1-47a6-80cf-f90af9f43cee.png)
 
