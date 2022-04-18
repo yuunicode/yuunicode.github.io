@@ -5,7 +5,7 @@ toc_sticky: true
 toc_label: "MYSELF"
 ---
 
-## ts object  
+### ts object  
 A time series is stored in a ts object in R:  
 - a list of numbers  
 - information about times thoses numbers were recorded.  
@@ -20,15 +20,15 @@ ts() 문법:
 
 이제 예시를 보자.  
 
-#### Annual data with 1 Obs **per year**,  
+- Annual data with 1 Obs **per year**,  
 > y <- ts(c(123, 79, 38, 52, 100), start=2012)  
 이 경우는 일년에 한번이기 때문에 c(start_year)만 넣어주면 된다. 하지만 일년에 한번의 관측치가 아니면,  
 
-#### Annual data with more than 1 Obs **per year**,  
+- Annual data with more than 1 Obs **per year**,  
 > y <- ts(z, start=2003, frequency=12)  
 주기를 넣어주면 된다. **오브젝트에 계속 넣어줘야하는 요소로 겁나 중요함**.  
 
-
+### Frequency Table
 |Data|Frequency|start example|
 |:---|---:|:---|
 |Annual|1|1995|
@@ -38,17 +38,38 @@ ts() 문법:
 |daily| 7 (weekly seasonality), 365.25 (annual seasonality)|1 or c(1995,234)| 
 |minute| 60 (hourly seasonality), 1440 (daily seasonality 60 * 24), 10080 (weekly seasonality 60 * 24 * 7), 525960 (annual 60 * 24 * 365.25) | 
 
-[ Figure 1. Frequency Table]
+### Time series Patterns  
+크게 Trend, Seasonal, Cyclic이 있다.  
+**Trend**  
+- Long-term (긴 기간)
+- Do not have to be linear (선형일 필요 없음)  
+- Changing direction: 추세가 바뀔 때  
+
+**Seasonal**  
+
+
 
 ------
+## Plot을 그려보자  
+
 이 책을 기반으로 시계열을 공부해보자. 
 가장 기본적으로 **fpp2** 패키지 로드를 하면, **forecast** 나 **ggplot2**를 자동적으로 불러온다.  
 > library(fpp2)  
-하면 준비 끝  
+하면 준비 끝. 
 
-## Autoplot() : produce a time plot of the data
+### Autoplot() : produce a time plot of the data
+#### 예시1) 호주의 GDP  
 
-예시로 Melsyd를 autoplot해보자. 우선 Melsyd 데이터를 보면,  
+ausgdp 데이터를 봐보자.  
+![image](https://user-images.githubusercontent.com/56739105/163747740-6fbe8b18-1b97-497f-b9b4-c35d798d84b1.png)  
+
+Quantile이 4개로 나눠져있으니 frequency=4, 그리고 시작하는 년도가 1971년도의 3번째 주기니 start=c(1971,3) 으로 설정해주면 된다.  
+
+>ausgdp <- ts(x, frequency=4, start=c(1971,3)) 
+
+#### 예시2) 항공사 승객 수 
+
+Melsyd를 autoplot해보자. 우선 Melsyd 데이터를 보면,  
 
 ![캡처](https://user-images.githubusercontent.com/56739105/163723429-1301d4cf-19c7-45fd-9fcf-439e94fef59d.PNG)
 
@@ -69,4 +90,24 @@ autoplot(melsyd[, "Economy.Class"]) +
 - 1992년에 승객의 감소(이코노미 좌석 중 일부가 비즈니스 좌석으로 교체)  
 - 1991년 후반에 눈에띄게 증가 
 - 12월에서 1월로 넘어가는 구간에서 크게 하락하는 구간이 있음 (휴가철의 효과같음)  
-- 
+
+#### 예시3)당뇨병 약 매출  
+
+a10데이터를 확인해보자.  
+
+![image](https://user-images.githubusercontent.com/56739105/163746297-1fd8ef1f-bcd6-4196-8ea1-b1b4483e22fe.png)
+
+월별로 나눠져있는 시계열데이터인 것을 확인할 수 있다.  
+
+```R
+autoplot(a10) + 
+     ggtitle("Antidiabetic drug sales") + 
+     xlab("$ million") + 
+     ylab("Year")
+
+```  
+
+![image](https://user-images.githubusercontent.com/56739105/163746838-4ece3c85-2e61-4765-b33b-d70381361ae2.png)  
+
+계속 증가하는 추세, 즉 Level이 올라가고, Seasonal 패턴도 폭이 커지는 것을 볼 수 있다. 특히 연말에 구입량이 증가하는 이유는 연말에 정부에서 당뇨환자들에게 주는 지원제도가 있기 때문이다.  
+
