@@ -164,8 +164,9 @@ lynxts <- ts(lynx)
 Seasonal 패턴이 잘보인다. 교수님 피셜로는 얘네가 알아서 개체수를 조절한다고 한다.  
 
 4. goog  
-
+help(goog)로 확인해보면, goog의 주식 종가를 13.02.25부터 17.02.13까지 기록한 것이다.  
 ![image](https://user-images.githubusercontent.com/56739105/163756278-82823652-cbda-4a63-9497-a03dcd348f41.png)  
 
-![image](https://user-images.githubusercontent.com/56739105/163756326-2ddbca4c-57a1-47a6-80cf-f90af9f43cee.png)
+데이터 테이블이 단순하니 바로 autoplot을 해도 상관없긴하다. 라고 생각했지만 생각해보니 day별로 하는건 너무 손해 아닌가? 그래서 시도해본 것은 annualy로 바꾸는 것이다.  
 
+![image](https://user-images.githubusercontent.com/56739105/163760352-4485074a-c07d-48a1-ad21-e64d7f712e86.png)  
