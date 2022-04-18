@@ -1,3 +1,10 @@
+---
+title: "Ch2. Visualizing Time Series Data"
+toc: true
+toc_sticky: true
+toc_label: "MYSELF"
+---
+
 ## ts object  
 A time series is stored in a ts object in R:  
 - a list of numbers  
@@ -56,4 +63,10 @@ autoplot(melsyd[, "Economy.Class"]) +
 ```
 
 ![캡처](https://user-images.githubusercontent.com/56739105/163723552-810514b0-f722-49e5-9c64-6e4b313afc03.PNG)  
-플랏만 보고 해석할 수 있는것은 
+
+플랏만 보고 해석할 수 있는것은,
+- 1989년에 수송객이 없었음 (파업)  
+- 1992년에 승객의 감소(이코노미 좌석 중 일부가 비즈니스 좌석으로 교체)  
+- 1991년 후반에 눈에띄게 증가 
+- 12월에서 1월로 넘어가는 구간에서 크게 하락하는 구간이 있음 (휴가철의 효과같음)  
+- 
