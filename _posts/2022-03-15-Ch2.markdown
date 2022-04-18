@@ -2,7 +2,7 @@
 title: "Ch2. Visualizing Time Series Data"
 toc: true
 toc_sticky: true
-toc_label: "MYSELF"
+toc_label: "Ch2"
 ---
 
 ### ts object  
@@ -38,7 +38,7 @@ ts() 문법:
 |daily| 7 (weekly seasonality), 365.25 (annual seasonality)|1 or c(1995,234)| 
 |minute| 60 (hourly seasonality), 1440 (daily seasonality 60 * 24), 10080 (weekly seasonality 60 * 24 * 7), 525960 (annual 60 * 24 * 365.25) | 
 
-### Time series Patterns  
+### Time series Components
 크게 Trend, Seasonal, Cyclic이 있다.  
 
 **Trend**  
@@ -49,11 +49,12 @@ ts() 문법:
 **Seasonal**  
 - fixed and known frequency  
 - Monthly sales of antidiabetic drugs - 연말에 가격이 싸지는 것 
+- 길이가 명확하게 주어져있다. 인간이 만들어냄
 
 **Cyclic**  
 - not a fixed frequency  
 - usually due to economic conditions, and often related to the 'business cycle'
-
+- 주기는 있지만 길이를 확신할 수 없다. 지구가 만들어낸 계절적인 요소를 뜻한다.
 
 ------
 ## Plot을 그려보자  
@@ -161,12 +162,87 @@ lynxts <- ts(lynx)
 
 ![image](https://user-images.githubusercontent.com/56739105/163755231-8ab660fd-de97-4566-874d-5ff6910012e9.png)
 
-Seasonal 패턴이 잘보인다. 교수님 피셜로는 얘네가 알아서 개체수를 조절한다고 한다.  
+**Cyclic** 패턴이 잘보인다. - 개체수 조절은 우리가 하는 것이 아니기 때문이다.  
 
 4. goog  
 help(goog)로 확인해보면, goog의 주식 종가를 13.02.25부터 17.02.13까지 기록한 것이다.  
 ![image](https://user-images.githubusercontent.com/56739105/163756278-82823652-cbda-4a63-9497-a03dcd348f41.png)  
 
-데이터 테이블이 단순하니 바로 autoplot을 해도 상관없긴하다. 라고 생각했지만 생각해보니 day별로 하는건 너무 손해 아닌가? 그래서 시도해본 것은 annualy로 바꾸는 것이다.  
+데이터 테이블이 단순하니 바로 autoplot을 해도 상관없긴하다. 라고 생각했지만 생각해보니 day별로 하는건 가독성이 떨어지니까 년도별로 axis를 바꿔봤다.  
 
 ![image](https://user-images.githubusercontent.com/56739105/163760352-4485074a-c07d-48a1-ad21-e64d7f712e86.png)  
+
+increasing하는 트렌드가 보인다. (레벨이 달라짐!)  
+
+### ggseasonplot(): 계절별로 나타내는 플롯  
+그냥 Timeplot과는 다르게 individual "seasons"를 기준으로 하는 플롯이다.  
+Forecasting을 어렵게하는 주범! 이다.. 
+
+예제2) 에서 썼던 a10 데이터를 써보면, 
+
+```R
+ggseasonplot(a10, year.labels=TRUE, year.labels.left=TRUE) + ylab("$ million") + ggtitle("Seasonal plot: antidiabetic drug sales")
+```
+
+![image](https://user-images.githubusercontent.com/56739105/163786747-777e9a47-797c-41e5-982b-02da3108f571.png)
+
+각 Season별로 오버랩되는 플롯이 만들어진다. (이 경우의 season은 달!) 플롯의 앞부분을 보면 그래프가 1월이 큰 폭으로 뛰는 것을 볼 수 있는데, 이 것은 반여이 안됐던 12월의 고객들의 비축량이라고 볼 수 있다. (원래 1-2주정도 소요되니까). 또한 2008의 3월은 혼자 내려가있다는 것에서 어색함을 느낄 수 있다.  
+Seasonal Plot은 Polar Coordinates를 쓰면 더 쉽게 보인다.  
+
+> polar = TRUE  
+
+이렇게 세팅해주면 된다. 결과물은  
+![image](https://user-images.githubusercontent.com/56739105/163788363-c2e192a0-7159-483f-8564-1d29f5012342.png)  
+
+Seasonal Plot은 가려져있던 패턴을 찾기 쉽게 해주는데, 예시 하나를 더 들어보자.  
+beer 데이터는 호주의 맥주 생산량을 나타내는 자료다. 원 자료를 보면 1956년부터 2010까지 자료가 있다. 너무 오래된 자료는 오히려 forecasting을 방해할 수 있기 떄문에 최근 20년 전 것부터 표로 나타내보도록 한다.
+
+> beer <- window(ausbeer, start=1990)
+> autoplot(beer)  
+
+![image](https://user-images.githubusercontent.com/56739105/163791686-5f09c78e-7733-4260-b149-0c1d10540128.png)
+
+확실히 seasonal pattern이 있는게 보인다. 이걸 ggseasonplot으로 보면 더 잘 보인다.  
+
+> ggseasonplot(beer, year.labels=TRUE)  
+
+![image](https://user-images.githubusercontent.com/56739105/163791874-e920548e-835a-49a3-bfcd-82b655876f8c.png)
+ 
+ 이런 식으로 쿼터2가 상대적으로 생산량이 적은 것을 확인할 수 있다. 또한 쿼터4(9월~12월)이 생산량이 많은 것을 볼 수 있다. 호주는 우리나라와 계절이 반대기 때문에 여름에 잘 팔리는 것을 알 수 있다!  
+
+### ggsubseriesplot() : 작은 Timeplot들을 모아서 보고싶을 때  
+그림으로 봐야 이해하기가 편하다. 이 플롯의 특징으로는, 각 SEASON의 평균을 알 수 있다는 것이다.  
+
+![image](https://user-images.githubusercontent.com/56739105/163788902-e7d96443-74c1-4a65-abe7-ce32ed08fc03.png)
+파란 막대기 - 각 월별 평균이다. subseries의 장점은 계절성이 잘 보인다는 것이다!  
+
+![image](https://user-images.githubusercontent.com/56739105/163792099-f048cde0-6de0-489c-a5e7-f838db5dc697.png)
+
+#### Your turn
+The arrivals data set comprises quarterly international arrivals (in thousands) to Australia from Japan, New Zealand, UK and the US.  
+- Use autoplot() and ggseasonplot() to compare the differences between the arrivals from these four countries.  
+- Can you identify _any unusual observations?_  
+
+
+
+![image](https://user-images.githubusercontent.com/56739105/163792380-505552a9-2ae2-46eb-b81b-6546a949ebad.png)
+데이터는 이런 식으로 생겼다.  
+![image](https://user-images.githubusercontent.com/56739105/163792446-52926082-34e5-40bc-828f-2a5cc048c82f.png)
+
+평범한 타임플롯으로 보기엔 일본이 2000년 이후 direction이 바뀌고, US는 천천히 increasing하는 추세, 뉴질랜드도 increasing중이다. UK의 경우 Season의 폭이 점점 커졌다.  
+
+Seasonal을 각각 보려면,  
+ggseasonplot(arrivals[, "Japan"])
+ggseasonplot(arrivals[, "NZ"])
+ggseasonplot(arrivals[, "UK"])
+ggseasonplot(arrivals[, "US"])
+ggsubseriesplot(arrivals[, "Japan"])
+ggsubseriesplot(arrivals[, "NZ"])
+ggsubseriesplot(arrivals[, "UK"])
+ggsubseriesplot(arrivals[, "US"])
+
+The arrivals from Japan decrease a lot in 2nd quarter compared to the other quarteres.
+The arrivals from New Zealand are highest in 3rd quarter and lowest in 1st quarter.
+The arrivals from UK and US are low in 2nd and 3rd quarters and high in 1st and 4th quarters.
+
+### scatterplots() : 산포도는 시계열 자료 '안에서의' 관계를 알 수 있다.
