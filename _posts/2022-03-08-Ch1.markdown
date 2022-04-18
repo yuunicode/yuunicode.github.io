@@ -42,17 +42,19 @@ $$ED_{t+1} = f(ED_t, current\,temperature, strength\,of\,economy, population, ti
 
 #### Terms:  
 - Things to be forecast : a r.v $$y_t$$  
-- Forecast distribution : Set $$\mathsf{I}$$ 를 전체 관측치들라고 한다면, $$y_{t\mid\mathsf{I}}$$는 우리가 아는 것들을 전제로 한 확률변 수 y라는 뜻이 된다. 
-- Point forecast : mean of $$y_{t\mid\mathsf{I}}$$  
+- Forecast distribution : Set $$\mathsf{I}$$ 를 전체 관측치들라고 한다면, $$y_{t\mid\mathsf{I}}$$는 우리가 아는 정보들을 전제로 한 확률변 수 y라는 뜻이 된다. 
+- Point forecast : mean of $$y_{t\mid\mathsf{I}}$$, 우리는 예측분포의 평균을 yhat 이라고도 한다. 즉, $$\hat{y}$$  
 - Forecast variance : $$var[y_t\mid I]$$  
 
-시계열에서 이제부터 항상 나오는 표현: 
+- 
+시계열에서 이제부터 항상 나오는 표현:   
 
-$$y_{t|t-1} = y_t|{y_1, y_2, ... , y_{t-1}}$$
+$$y_{t|t-1} = y_t|{y_1, y_2, ... , y_{t-1}}$$  
 
-다음으로, H번의 예측은 오
+모든 이전 관측값을 고려한 yt의 예측을 뜻한다.
 
-$$\widehat{y_{T+h}} = E[y_{T+h}|y_1, ..., y_t]$$
+$$\widehat{y_{T+h}\mid T} = E[y_{T+h}|y_1, ..., y_t]$$  
+
 : (an h-step forecast taking account of all observations up to time T).  
 
 의 식으로 표현 가능하다.  
